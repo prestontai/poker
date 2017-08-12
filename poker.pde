@@ -223,7 +223,8 @@ public class Cards{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			return Integer.toString(myValue+2);
+			//return Integer.toString(myValue+2);
+			return parseInt(myValue+2);
 		}
 	}			
 }
