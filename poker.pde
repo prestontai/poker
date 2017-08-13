@@ -195,7 +195,7 @@ public void mousePressed(){
 					}
 				}
 				if(Math.max(flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour)>=5){
-					money+=12*bet;
+					money+=5*bet;
 					fill(50,50,50);
 					textSize(30);
 					text("WINNER!" + "\n" + "FLUSH", 380, 350);	//winning message
