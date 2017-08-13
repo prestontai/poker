@@ -9,6 +9,7 @@ public boolean gameStart=false;
 public boolean roundOver=true;
 public boolean lock=false;
 public int something;
+public int flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour;
 physCard maker = new physCard();
 ArrayList<Integer> uniqueArray = new ArrayList<Integer>();
 public void setup(){
@@ -178,6 +179,24 @@ public void mousePressed(){
 						}
 					}
 				}
+				for(int i=0; i<7; i++){
+					if(deck[uniqueArray.get(i)].getSuit()==1){
+						flushOne++;
+					}else if(deck[uniqueArray.get(i)].getSuit()==2){
+						flushTwo++;
+					}else if(deck[uniqueArray.get(i)].getSuit()==3){
+						flushThree++;
+					}else if(deck[uniqueArray.get(i)].getSuit()==1){
+						flushFour;
+					}
+				}
+				if(Math.max(flushOne, flushTwo, flushThree, flushFour)>=5){
+					money+=3*bet;
+					fill(50,50,50);
+					textSize(30);
+					text("WINNER!", 380, 350);	//winning message
+					text("WINNER!", 40, 350);
+				}
 			}	
 		}
 	}
@@ -223,8 +242,8 @@ public class Cards{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			//return Integer.toString(myValue+2);
-			return parseInt(myValue+2);
+			return Integer.toString(myValue+2);			//FOR Sublime
+			//return parseInt(myValue+2);				//FOR Javascript
 		}
 	}			
 }
