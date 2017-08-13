@@ -58,6 +58,10 @@ public void keyPressed(){
 	if(roundOver==true){
 		if(keyCode==32){
 			money=money-bet;
+			flushCheckOne=0;
+			flushCheckTwo=0;
+			flushCheckThree=0;
+			flushCheckFour=0;
 			background(256,256,256);
 			roundOver=false;
 			for(int i=0; i<7; i++){
@@ -190,8 +194,8 @@ public void mousePressed(){
 						flushFour;
 					}
 				}
-				if(Math.max(flushOne, flushTwo, flushThree, flushFour)>=5){
-					money+=8*bet;
+				if(Math.max(flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour)>=5){
+					money+=12*bet;
 					fill(50,50,50);
 					textSize(30);
 					text("WINNER!" + "\n" + "FLUSH", 380, 350);	//winning message
