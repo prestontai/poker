@@ -185,13 +185,13 @@ public void mousePressed(){
 				}
 				for(int i=0; i<7; i++){
 					if(deck[uniqueArray.get(i)].getSuit()==1){
-						flushOne++;
+						flushCheckOne++;
 					}else if(deck[uniqueArray.get(i)].getSuit()==2){
-						flushTwo++;
+						flushCheckTwo++;
 					}else if(deck[uniqueArray.get(i)].getSuit()==3){
-						flushThree++;
+						flushCheckThree++;
 					}else if(deck[uniqueArray.get(i)].getSuit()==1){
-						flushFour;
+						flushCheckFour;
 					}
 				}
 				if(Math.max(flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour)>=5){
