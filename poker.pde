@@ -1,4 +1,5 @@
 //POKER
+/*
 Cards [] deck = new Cards[52];
 boolean [] switcher = new boolean [7];
 public int withinCounter=0;
@@ -9,6 +10,7 @@ public boolean gameStart=false;
 public boolean roundOver=true;
 public boolean lock=false;
 public int something;
+public boolean pairCheck, tripCheck, quadCheck, flushCheck=false;
 public int flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour;
 physCard maker = new physCard();
 ArrayList<Integer> uniqueArray = new ArrayList<Integer>();
@@ -62,6 +64,7 @@ public void keyPressed(){
 			flushCheckTwo=0;
 			flushCheckThree=0;
 			flushCheckFour=0;
+												//reset pairCheck, tripCheck, quadCheck, flushCheck=false;
 			background(256,256,256);
 			roundOver=false;
 			for(int i=0; i<7; i++){
@@ -137,6 +140,15 @@ public void mousePressed(){
 			}
 				if(mouseX>140&&mouseX<400&&mouseY>210&&mouseY<260){				//clicking the button to switch cards 
 					roundOver=true;
+					if(quadCheck==true){					//switching winnings over too boolean form
+
+					}else if(flushCheck==true){
+
+					}else if(tripCheck==true){
+
+					}else if(pairCheck==true){
+
+					}
 					text("Press Space to Continue Playing", 50, 450);
 					fill(100,100,100);											//the button to switch cards
 					rect(140, 210, 260, 50);				
@@ -161,8 +173,8 @@ public void mousePressed(){
 							text("WINNER!", 380, 350);	//winning message
 							text("WINNER!", 40, 350);
 						}
-					}
-				}
+					}  
+				}//pair jacks++
 				for(int i=0; i<7; i++){
 					for(int j=0; j<7; j++){
 						for(int k=0; k<7; k++){											
@@ -182,7 +194,7 @@ public void mousePressed(){
 							}
 						}
 					}
-				}
+				}//trips and quads
 				for(int i=0; i<7; i++){
 					if(deck[uniqueArray.get(i)].getSuit()==1){
 						flushCheckOne++;
@@ -191,16 +203,19 @@ public void mousePressed(){
 					}else if(deck[uniqueArray.get(i)].getSuit()==3){
 						flushCheckThree++;
 					}else if(deck[uniqueArray.get(i)].getSuit()==1){
-						flushCheckFour;
+						flushCheckFour++;
 					}
-				}
-				if(Math.max(flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour)>=5){
-					money+=5*bet;
+				}//flushCount
+				if(Math.max(Math.max(Math.max(flushCheckOne, flushCheckTwo),flushCheckThree), flushCheckFour)>=5){
+					money+=4*bet;
 					fill(50,50,50);
 					textSize(30);
 					text("WINNER!" + "\n" + "FLUSH", 380, 350);	//winning message
 					text("WINNER!" + "\n" + "FLUSH", 40, 350);
-				}
+				}//flushCheck
+				//for(int i=0; i<){
+
+				//}
 			}	
 		}
 	}
@@ -246,8 +261,8 @@ public class Cards{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			//return Integer.toString(myValue+2);			//FOR Sublime
-			return parseInt(myValue+2);				//FOR Javascript
+			return Integer.toString(myValue+2);			//FOR Sublime
+			//return parseInt(myValue+2);				//FOR Javascript
 		}
 	}			
 }
@@ -273,3 +288,4 @@ public class physCard{
 		}
 	}
 }
+*/
