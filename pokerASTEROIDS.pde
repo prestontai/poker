@@ -219,8 +219,8 @@ public class Cards extends Floater{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			return Integer.toString(myValue+2);			//FOR Sublime
-			//return parseInt(myValue+2);				//FOR Javascript
+			//return Integer.toString(myValue+2);			//FOR Sublime
+			return parseInt(myValue+2);				//FOR Javascript
 		}
 	}
 	public void move(){
