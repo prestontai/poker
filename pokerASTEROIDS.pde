@@ -15,10 +15,11 @@ public boolean scoreStart=false;
 ArrayList<Integer> uniqueArray = new ArrayList<Integer>();
 
 public void settings(){
-	size(600,600);
+	//size(600,600);
 }
 
 public void setup(){
+	size(600,600);
 	flyer.setX(300);
 	flyer.setY(500);
 	for(int i=0; i<night.length; i++){	//star background maker
