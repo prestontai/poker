@@ -319,6 +319,20 @@ class Bullet extends Floater{
     public void show(){
       fill(255,0,0);
       ellipse(myBulletX, myBulletY, 5, 5);
+      ellipse(myBulletX+5, myBulletY, 5, 5);
+      ellipse(myBulletX+10, myBulletY, 5, 5);
+      ellipse(myBulletX-5, myBulletY, 5, 5);
+      ellipse(myBulletX-10, myBulletY, 5, 5);
+      ellipse(myBulletX, myBulletY+5, 5, 5);
+      ellipse(myBulletX+5, myBulletY+5, 5, 5);
+      ellipse(myBulletX+10, myBulletY+5, 5, 5);
+      ellipse(myBulletX-5, myBulletY+5, 5, 5);
+      ellipse(myBulletX-10, myBulletY+5, 5, 5);
+      ellipse(myBulletX, myBulletY+10, 5, 5);
+      ellipse(myBulletX+5, myBulletY+10, 5, 5);
+      ellipse(myBulletX+10, myBulletY+10, 5, 5);
+      ellipse(myBulletX-5, myBulletY+10, 5, 5);
+      ellipse(myBulletX-10, myBulletY+10, 5, 5);
     }
     public void setX(int x){myBulletX= x;}; 
     public int getX(){return myBulletX;};
@@ -338,9 +352,12 @@ public int distance1, distance2;
 public boolean starCounter=false;
 Star [] night = new Star[400];
 Cards [] deck = new Cards[52];								//original code for poker
-boolean [] switcher = new boolean [5];
+ArrayList <Cards> hand = new ArrayList<Cards> ();
+//boolean [] switcher = new boolean [5];
 public int withinCounter=0;
 public int handCount=0;
+public int timer=0;
+public int shotTargets=0;
 /*public float money=100;
 public float bet=1; //bet is 1 right now;
 public int counter=0;
@@ -370,6 +387,9 @@ public void setup(){
 			}
 		withinCounter+=13;
 	}
+	for(int empty=0; empty<5; empty++){
+		hand.add(0,new Cards());
+	}
 	//shuffle(deck);
 }
 public void draw(){
@@ -385,32 +405,44 @@ public void draw(){
 		deck[i].show();
 		deck[i].move();
 	}
+	timer++;
+	if(timer>1000){
+		for(int i=0; i<52; i++){
+			deck[i].setX(((int)(Math.random()*400)+50));
+			deck[i].setY(((int)(Math.random()*4000)-4000));
+			System.out.println("resetting");
+		}
+		timer=0;
+	}
 	if (keyPressed) {
       if (key == 'a' ) {  			//left
         flyer.setDirectionX(-6);
       }else if (key == 'd'){		//right
       	flyer.setDirectionX(6);
+      /*}else if(key=='w'){				//up
+      	flyer.setDirectionY(-6);		
+      }else if(key=='s'){			
+      	flyer.setDirectionY(6);*/		//down
+      }else{
+      	flyer.setDirectionX(0);
       }
-    }else{
-    	flyer.setDirectionX(0);
     }
     noStroke();
-    fill(50,150,50);
-    rect(0,520,600,90);
     for(int a=0; a<deck.length; a++){
       	for(int i=0; i<magazine.size(); i++){
-	     	if(magazine.get(i).getX()<deck[a].getX()+80&&magazine.get(i).getX()>deck[a].getX()
+	     	if(magazine.get(i).getX()<deck[a].getX()+90&&magazine.get(i).getX()>deck[a].getX()-10
 	     	&&magazine.get(i).getY()<deck[a].getY()+100){				//80X 100Y
 		          deck[a].setX(5000);
 		          magazine.remove(i);
 		          i--;
 		          handCount++;
+		          shotTargets++;
 		          break;
 	       	}
     	}
-     	if(deck[a].getY()==600){
+     	/*if(deck[a].getY()==600){
     		deck[a].setX(5000);
-    	}
+    	}*/
     }
     for(int i=0; i<magazine.size(); i++){
       magazine.get(i).move();
@@ -420,24 +452,37 @@ public void draw(){
         i--;
       }
     }
+    fill(50,150,50);	//dashboard
+    rect(0,520,600,90);
     for(int a=0; a<deck.length; a++){
 	    if(deck[a].getX()==5000){
-	    	stroke(0,0,0);
-			textSize(15);																		
-			fill(0,0,0);
-			text(deck[a].getValueConvert()+"\n" + deck[a].getSuitConvert(), handCount*30 + 20, 540);
+	    	deck[a].setX(10000);
+	    	hand.set(handCount-1, deck[a]);
 	    }
 	}
+			stroke(0,0,0);
+			textSize(15);																		
+			fill(0,0,0);
+			text(hand.get(0).getValueConvert()+"\n" + hand.get(0).getSuitConvert(), 1*90 + 20, 540);			
+			text(hand.get(1).getValueConvert()+"\n" + hand.get(1).getSuitConvert(), 2*90 + 20, 540);
+			text(hand.get(2).getValueConvert()+"\n" + hand.get(2).getSuitConvert(), 3*90 + 20, 540);
+			text(hand.get(3).getValueConvert()+"\n" + hand.get(3).getSuitConvert(), 4*90 + 20, 540);
+			text(hand.get(4).getValueConvert()+"\n" + hand.get(4).getSuitConvert(), 5*90 + 20, 540);
+	if(handCount==5){
+		handCount=0;
+		//hand.set(handCount-1, deck[0]);
+	}
+
 }
 public void keyPressed(){
 
 }
 public void mousePressed(){
 	magazine.add(0, new Bullet());
-	//System.out.println(deck[0].getValue()); 	//debugging line
-	//shuffle();
-	//System.out.println(maker.getX() + " "+ maker.getY());
-	//System.out.println(deck[0].getX()+""+deck[0].getY());
+	System.out.println(shotTargets);						//to see how many targets were shot, trying to see if it's over 52, checking if reset deck works
+	//System.out.println(deck[0].getValue()); 						//to try to get value of cards
+	//System.out.println(maker.getX() + " "+ maker.getY());			//to try to get coordinates of cards
+	//System.out.println(deck[0].getX()+""+deck[0].getY());			//cards were initially not visible
 }
 public class SpaceShip extends Floater{
 	public void show(){
@@ -489,7 +534,7 @@ public class Cards extends Floater{
 	int myValue;
 	int mySuit;
 	int myX= ((int)(Math.random()*400)+50);
-	int myY= ((int)(Math.random()*10000)-10000);
+	int myY= ((int)(Math.random()*4000)-4000);
 	public Cards(){
 		myDirectionY= 1;
 	}

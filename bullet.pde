@@ -12,6 +12,20 @@ class Bullet extends Floater{
     public void show(){
       fill(255,0,0);
       ellipse(myBulletX, myBulletY, 5, 5);
+      ellipse(myBulletX+5, myBulletY, 5, 5);
+      ellipse(myBulletX+10, myBulletY, 5, 5);
+      ellipse(myBulletX-5, myBulletY, 5, 5);
+      ellipse(myBulletX-10, myBulletY, 5, 5);
+      ellipse(myBulletX, myBulletY+5, 5, 5);
+      ellipse(myBulletX+5, myBulletY+5, 5, 5);
+      ellipse(myBulletX+10, myBulletY+5, 5, 5);
+      ellipse(myBulletX-5, myBulletY+5, 5, 5);
+      ellipse(myBulletX-10, myBulletY+5, 5, 5);
+      ellipse(myBulletX, myBulletY+10, 5, 5);
+      ellipse(myBulletX+5, myBulletY+10, 5, 5);
+      ellipse(myBulletX+10, myBulletY+10, 5, 5);
+      ellipse(myBulletX-5, myBulletY+10, 5, 5);
+      ellipse(myBulletX-10, myBulletY+10, 5, 5);
     }
     public void setX(int x){myBulletX= x;}; 
     public int getX(){return myBulletX;};
