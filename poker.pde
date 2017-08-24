@@ -182,7 +182,7 @@ public void mousePressed(){
 								if(i!=j&&deck[uniqueArray.get(i)].getValue()==deck[uniqueArray.get(j)].getValue()){		
 									if(i!=k&&j!=k&&deck[uniqueArray.get(i)].getValue()==deck[uniqueArray.get(k)].getValue()){			//three of a kind
 										money+=0.04*bet;
-										if(k!=j&&i!=l&&deck[uniqueArray.get(l)].getValue()==deck[uniqueArray.get(l)].getValue()){		//four of a kind
+										if(k!=j&&i!=l&&deck[uniqueArray.get(k)].getValue()==deck[uniqueArray.get(l)].getValue()){		//four of a kind
 											money+=0.1*bet;
 										}
 										fill(50,50,50);

@@ -11,15 +11,7 @@ public int withinCounter=0;
 public int handCount=0;
 public int timer=0;
 public int shotTargets=0;
-/*public float money=100;
-public float bet=1; //bet is 1 right now;
-public int counter=0;
-public boolean gameStart=false;
-public boolean roundOver=true;
-public boolean lock=false;
-public int something;*/
-public boolean pairCheck, tripCheck, quadCheck, flushCheck=false;
-public int flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour;
+public boolean scoreStart=false;
 ArrayList<Integer> uniqueArray = new ArrayList<Integer>();
 
 public void settings(){
@@ -59,11 +51,10 @@ public void draw(){
 		deck[i].move();
 	}
 	timer++;
-	if(timer>1000){
+	if(timer>4000){
 		for(int i=0; i<52; i++){
 			deck[i].setX(((int)(Math.random()*400)+50));
 			deck[i].setY(((int)(Math.random()*4000)-4000));
-			System.out.println("resetting");
 		}
 		timer=0;
 	}
@@ -83,13 +74,15 @@ public void draw(){
     noStroke();
     for(int a=0; a<deck.length; a++){
       	for(int i=0; i<magazine.size(); i++){
-	     	if(magazine.get(i).getX()<deck[a].getX()+90&&magazine.get(i).getX()>deck[a].getX()-10
-	     	&&magazine.get(i).getY()<deck[a].getY()+100){				//80X 100Y
+	     	if(magazine.get(i).getX()<deck[a].getX()+90&&magazine.get(i).getX()>deck[a].getX()-10					//collision of bullets and cards
+	     	&&magazine.get(i).getY()<deck[a].getY()+100&&magazine.get(i).getY()>deck[a].getY()){				//80X 100Y
 		          deck[a].setX(5000);
 		          magazine.remove(i);
 		          i--;
 		          handCount++;
 		          shotTargets++;
+		          scoreEngine();
+		          scores-=5;
 		          break;
 	       	}
     	}
@@ -100,14 +93,14 @@ public void draw(){
     for(int i=0; i<magazine.size(); i++){
       magazine.get(i).move();
       magazine.get(i).show();
-      if(magazine.get(i).getX()<0 ||magazine.get(i).getY()<0||magazine.get(i).getX()>600|| magazine.get(i).getY()>600){                    //removing asteroids on contact
+      if(magazine.get(i).getX()<0 ||magazine.get(i).getY()<0||magazine.get(i).getX()>600|| magazine.get(i).getY()>600){                    //removing bullets when it goes off the screen
         magazine.remove(i);
         i--;
       }
     }
     fill(50,150,50);	//dashboard
     rect(0,520,600,90);
-    for(int a=0; a<deck.length; a++){
+    for(int a=0; a<deck.length; a++){						//moves the cards that were shot far away and makes a copy onto the dashboard
 	    if(deck[a].getX()==5000){
 	    	deck[a].setX(10000);
 	    	hand.set(handCount-1, deck[a]);
@@ -116,23 +109,24 @@ public void draw(){
 			stroke(0,0,0);
 			textSize(15);																		
 			fill(0,0,0);
-			text(hand.get(0).getValueConvert()+"\n" + hand.get(0).getSuitConvert(), 1*90 + 20, 540);			
-			text(hand.get(1).getValueConvert()+"\n" + hand.get(1).getSuitConvert(), 2*90 + 20, 540);
-			text(hand.get(2).getValueConvert()+"\n" + hand.get(2).getSuitConvert(), 3*90 + 20, 540);
-			text(hand.get(3).getValueConvert()+"\n" + hand.get(3).getSuitConvert(), 4*90 + 20, 540);
-			text(hand.get(4).getValueConvert()+"\n" + hand.get(4).getSuitConvert(), 5*90 + 20, 540);
+			text(hand.get(0).getValueConvert()+"\n" + hand.get(0).getSuitConvert(), 1*90 + 40, 540);			
+			text(hand.get(1).getValueConvert()+"\n" + hand.get(1).getSuitConvert(), 2*90 + 40, 540);
+			text(hand.get(2).getValueConvert()+"\n" + hand.get(2).getSuitConvert(), 3*90 + 40, 540);
+			text(hand.get(3).getValueConvert()+"\n" + hand.get(3).getSuitConvert(), 4*90 + 40, 540);
+			text(hand.get(4).getValueConvert()+"\n" + hand.get(4).getSuitConvert(), 5*90 + 40, 540);
 	if(handCount==5){
 		handCount=0;
-		//hand.set(handCount-1, deck[0]);
+		scoreStart=true;
+		//hand.set(handCount-1, deck[0]);]
 	}
-
+	text("SCORE: "+ scores, 20, 540);					//scoreCard
 }
-public void keyPressed(){
+public void keyPressed(){					
 
 }
 public void mousePressed(){
 	magazine.add(0, new Bullet());
-	System.out.println(shotTargets);						//to see how many targets were shot, trying to see if it's over 52, checking if reset deck works
+	//System.out.println(shotTargets);						//to see how many targets were shot, trying to see if it's over 52, checking if reset deck works
 	//System.out.println(deck[0].getValue()); 						//to try to get value of cards
 	//System.out.println(maker.getX() + " "+ maker.getY());			//to try to get coordinates of cards
 	//System.out.println(deck[0].getX()+""+deck[0].getY());			//cards were initially not visible
