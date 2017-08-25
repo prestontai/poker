@@ -3,20 +3,20 @@ public boolean pairCheck, tripCheck, quadCheck, flushCheck=false;
 public int flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour;
 public int scores=0;
 public void scoreEngine(){
-	if(scoreStart==true){
+	if(scoreStart==true&&handScore==true){
 		if(quadCheck==true||flushCheck==true||tripCheck==true||pairCheck==true){
 			if(quadCheck==true){					//switching winnings over too boolean form
 				quadCheck=false;
-				scores+=100;
+				scores+=50;
 			}else if(flushCheck==true){
 				flushCheck=false;
-				scores+=10;
+				scores+=20;
 			}else if(tripCheck==true){
 				tripCheck=false;
-				scores+=3;
+				scores+=15;
 			}else if(pairCheck==true){
 				pairCheck=false;
-				scores+=2;
+				scores+=5;
 			}
 			quadCheck=false;
 			tripCheck=false;
@@ -40,7 +40,7 @@ public void scoreEngine(){
 				}
 			}
 		}
-		for(int i=0; i<5; i++){
+		for(int i=0; i<5; i++){												//counting how many in each suit
 			if(hand.get(i).getSuit()==1){
 				flushCheckOne++;
 			}else if(hand.get(i).getSuit()==2){
@@ -51,12 +51,12 @@ public void scoreEngine(){
 				flushCheckFour++;
 			}
 		}
-		if(Math.max(Math.max(Math.max(flushCheckOne, flushCheckTwo),flushCheckThree), flushCheckFour)>=5){
-			flushCheck=true;
-			flushCheckOne=0;
-			flushCheckTwo=0;
-			flushCheckThree=0;
-			flushCheckFour=0;
+		if(Math.max(Math.max(Math.max(flushCheckOne, flushCheckTwo),flushCheckThree), flushCheckFour)>=5){		//resetting the flushCount
+				flushCheck=true;
+				flushCheckOne=0;
+				flushCheckTwo=0;
+				flushCheckThree=0;
+				flushCheckFour=0;
 		}
 	}
 }

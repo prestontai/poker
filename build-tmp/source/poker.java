@@ -307,41 +307,47 @@ public class physCard{
 */
 
 class Bullet extends Floater{
-  private int myBulletX, myBulletY;
+  private double myBulletX, myBulletY;
+  private float grower;
+  private int colorChange;
   public Bullet(){            
       myBulletX = flyer.getX()+25;     
       myBulletY = flyer.getY()-60;    
-      myDirectionY= -3;
+      myDirectionY= -4;
+      grower=0;
     }
     public void move(){
       myBulletY += myDirectionY;
+      myBulletX += myDirectionX;
+      grower+=0.1f;
+      colorChange++;
     }
     public void show(){
-      fill(255,0,0);
-      ellipse(myBulletX, myBulletY, 5, 5);
-      ellipse(myBulletX+5, myBulletY, 5, 5);
-      ellipse(myBulletX+10, myBulletY, 5, 5);
-      ellipse(myBulletX-5, myBulletY, 5, 5);
-      ellipse(myBulletX-10, myBulletY, 5, 5);
-      ellipse(myBulletX, myBulletY+5, 5, 5);
-      ellipse(myBulletX+5, myBulletY+5, 5, 5);
-      ellipse(myBulletX+10, myBulletY+5, 5, 5);
-      ellipse(myBulletX-5, myBulletY+5, 5, 5);
-      ellipse(myBulletX-10, myBulletY+5, 5, 5);
-      ellipse(myBulletX, myBulletY+10, 5, 5);
-      ellipse(myBulletX+5, myBulletY+10, 5, 5);
-      ellipse(myBulletX+10, myBulletY+10, 5, 5);
-      ellipse(myBulletX-5, myBulletY+10, 5, 5);
-      ellipse(myBulletX-10, myBulletY+10, 5, 5);
+      fill(255,100,colorChange*5);
+      ellipse((float)myBulletX, (float)myBulletY, 5+grower, 5+grower);
+      ellipse((float)myBulletX+5, (float)myBulletY, 5+grower, 5+grower);
+      //ellipse((float)myBulletX+10, (float)myBulletY, 5+grower, 5+grower);
+      ellipse((float)myBulletX-5, (float)myBulletY, 5+grower, 5+grower);
+      //ellipse((float)myBulletX-10, (float)myBulletY, 5+grower, 5+grower);
+      ellipse((float)myBulletX, (float)myBulletY+5, 5+grower, 5+grower);
+      ellipse((float)myBulletX+5, (float)myBulletY+5, 5+grower, 5+grower);
+      //ellipse((float)myBulletX+10, (float)myBulletY+5, 5+grower, 5+grower);
+      ellipse((float)myBulletX-5, (float)myBulletY+5, 5+grower, 5+grower);
+      //ellipse((float)myBulletX-10,aaaaaaaa (float)myBulletY+5, 5+grower, 5+grower);
+      ellipse((float)myBulletX, (float)myBulletY+10, 5+grower, 5+grower);
+      ellipse((float)myBulletX+5, (float)myBulletY+10, 5+grower, 5+grower);
+      //ellipse((float)myBulletX+10, (float)myBulletY+10, 5+grower, 5+grower);
+      ellipse((float)myBulletX-5, (float)myBulletY+10, 5+grower, 5+grower);
+      //ellipse((float)myBulletX-10, (float)myBulletY+10, 5+grower, 5+grower);
     }
-    public void setX(int x){myBulletX= x;}; 
-    public int getX(){return myBulletX;};
-    public void setY(int y){myBulletY= y;};
-    public int getY(){return myBulletY;};
-    public void setDirectionX(int dirX){myDirectionX = dirX;};
-    public int getDirectionX(){return myDirectionX;};
-    public void setDirectionY(int dirY){myDirectionY = dirY;};
-    public int getDirectionY(){return myDirectionY;};
+    public void setX(double x){myBulletX= x;}; 
+    public double getX(){return myBulletX;};
+    public void setY(double y){myBulletY= y;};
+    public double getY(){return myBulletY;};
+    public void setDirectionX(double dirX){myDirectionX = dirX;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double dirY){myDirectionY = dirY;};
+    public double getDirectionY(){return myDirectionY;};
 }
 
 
@@ -359,14 +365,17 @@ public int handCount=0;
 public int timer=0;
 public int shotTargets=0;
 public boolean scoreStart=false;
+public boolean handScore=false;
+public int adjustSpeedOfCard=500;
 ArrayList<Integer> uniqueArray = new ArrayList<Integer>();
 
 public void settings(){
-	//size(600,600);
+	size(600,600);				//for Sublime
+
 }
 
 public void setup(){
-	size(600,600);
+	//size(600,600);				//for JS
 	flyer.setX(300);
 	flyer.setY(500);
 	for(int i=0; i<night.length; i++){	//star background maker
@@ -380,7 +389,7 @@ public void setup(){
 			}
 		withinCounter+=13;
 	}
-	for(int empty=0; empty<5; empty++){
+	for(int empty=0; empty<9; empty++){
 		hand.add(0,new Cards());
 	}
 	//shuffle(deck);
@@ -399,10 +408,11 @@ public void draw(){
 		deck[i].move();
 	}
 	timer++;
-	if(timer>4000){
+	if(timer>adjustSpeedOfCard){
 		for(int i=0; i<52; i++){
-			deck[i].setX(((int)(Math.random()*400)+50));
-			deck[i].setY(((int)(Math.random()*4000)-4000));
+			if(deck[i].getY()<-100){
+				deck[i].setY(((int)(Math.random()*adjustSpeedOfCard)-adjustSpeedOfCard-300));			//resets cards that arent shown on screen
+			}
 		}
 		timer=0;
 	}
@@ -411,10 +421,6 @@ public void draw(){
         flyer.setDirectionX(-6);
       }else if (key == 'd'){		//right
       	flyer.setDirectionX(6);
-      /*}else if(key=='w'){				//up
-      	flyer.setDirectionY(-6);		
-      }else if(key=='s'){			
-      	flyer.setDirectionY(6);*/		//down
       }else{
       	flyer.setDirectionX(0);
       }
@@ -424,13 +430,12 @@ public void draw(){
       	for(int i=0; i<magazine.size(); i++){
 	     	if(magazine.get(i).getX()<deck[a].getX()+90&&magazine.get(i).getX()>deck[a].getX()-10					//collision of bullets and cards
 	     	&&magazine.get(i).getY()<deck[a].getY()+100&&magazine.get(i).getY()>deck[a].getY()){				//80X 100Y
-		          deck[a].setX(5000);
+		          deck[a].setY(-20000);					//moves the card off the screen if it gets hit
 		          magazine.remove(i);
 		          i--;
 		          handCount++;
 		          shotTargets++;
-		          scoreEngine();
-		          scores-=5;
+		          scores-=1;
 		          break;
 	       	}
     	}
@@ -446,12 +451,15 @@ public void draw(){
         i--;
       }
     }
-    fill(50,150,50);	//dashboard
+    fill(50,150,50);				//dashboard
     rect(0,520,600,90);
     for(int a=0; a<deck.length; a++){						//moves the cards that were shot far away and makes a copy onto the dashboard
-	    if(deck[a].getX()==5000){
-	    	deck[a].setX(10000);
+	    if(deck[a].getY()==-20000){
+	    	deck[a].setY(-30000);
 	    	hand.set(handCount-1, deck[a]);
+	    }
+	    if(deck[a].getY()>600){
+	    	deck[a].setY(-10000);
 	    }
 	}
 			stroke(0,0,0);
@@ -462,55 +470,97 @@ public void draw(){
 			text(hand.get(2).getValueConvert()+"\n" + hand.get(2).getSuitConvert(), 3*90 + 40, 540);
 			text(hand.get(3).getValueConvert()+"\n" + hand.get(3).getSuitConvert(), 4*90 + 40, 540);
 			text(hand.get(4).getValueConvert()+"\n" + hand.get(4).getSuitConvert(), 5*90 + 40, 540);
-	if(handCount==5){
+	if(handCount>=6){								//making the hand
 		handCount=0;
+		scores+=1;
+	}else if(handCount==5){
+		scoreEngine();
+		scoreStart=false;
+	}else if(handCount==4){
 		scoreStart=true;
-		//hand.set(handCount-1, deck[0]);]
 	}
-	text("SCORE: "+ scores, 20, 540);					//scoreCard
+	text("SCORE: "+ scores, 20, 540);				//scoreCard
+	fill(150,200,250);	
+	noStroke();
+	fill(50,150,50);								//shifting rectangle to cover up a hand that isn't complete
+	rect(600,520,-480+handCount*90,90);
+									
+	strokeWeight(3);
+	stroke(150,200,250);									//theCrossHair
+	line(mouseX-15, mouseY-15, mouseX-8, mouseY-8);
+	line(mouseX-15, mouseY+15, mouseX-8, mouseY+8);
+	line(mouseX+15, mouseY+15, mouseX+8, mouseY+8);
+	line(mouseX+15, mouseY-15, mouseX+8, mouseY-8);
+	strokeWeight(1);
+
 }
 public void keyPressed(){					
 
 }
 public void mousePressed(){
 	magazine.add(0, new Bullet());
+	magazine.add(0, new Bullet());
+	magazine.add(0, new Bullet());
+	magazine.add(0, new Bullet());
+	magazine.add(0, new Bullet());
+	magazine.get(1).setDirectionX(2*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));			//fun!  just adding a spread of bullets
+	magazine.get(2).setDirectionX(-2*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));			
+	magazine.get(3).setDirectionX(4*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));
+	
+	/*if(-3*(mouseX-flyer.getX())/(mouseY-flyer.getY()-100)<-15){
+		magazine.get(0).setDirectionX(-8);														
+	}else if(-3*(mouseX-flyer.getX())/(mouseY-flyer.getY()-100)>15){
+		magazine.get(0).setDirectionX(8);
+	}else{*/
+		magazine.get(0).setDirectionX(-4*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));
+	//}
 	//System.out.println(shotTargets);						//to see how many targets were shot, trying to see if it's over 52, checking if reset deck works
 	//System.out.println(deck[0].getValue()); 						//to try to get value of cards
 	//System.out.println(maker.getX() + " "+ maker.getY());			//to try to get coordinates of cards
 	//System.out.println(deck[0].getX()+""+deck[0].getY());			//cards were initially not visible
+	//magazine.get(0).getDirectionX();								//bullets are moving left or right
+	//System.out.println(flyer.getX());								//ship wouldnt move
 }
 public class SpaceShip extends Floater{
+	private int colorChange;
+	public SpaceShip(){
+	}
 	public void show(){
+		colorChange++;
 		fill(100,50,0);
 		noStroke();
-		rect(myX, myY, 50, -20);
-		rect(myX, myY, 10, -30);
-		rect(myX+40, myY, 10, -30);
-		rect(myX+20, myY, 10, -60);
+		fill(colorChange%80+20, colorChange%120, 150);
+		rect((float)myX, (float)myY, 50, -20);					//long piece
+		fill(colorChange%150+40, colorChange%170, 150);
+		rect((float)myX, (float)myY, 10, -30);					//left
+		fill(colorChange%150+40, colorChange%170, 150);
+		rect((float)myX+40, (float)myY, 10, -30);					//right
+		fill(colorChange%80+20, colorChange%120, 150);
+		rect((float)myX+20, (float)myY, 10, -60);					//center
 	}
-	public void setX(int x){myX= x;}; 
-    public int getX(){return myX;};
-    public void setY(int y){myY= y;};
-    public int getY(){return myY;};
-	public void setDirectionX(int dirX){myDirectionX = dirX;};
-    public int getDirectionX(){return myDirectionX;};
-    public void setDirectionY(int dirY){myDirectionY = dirY;};
-    public int getDirectionY(){return myDirectionY;};
+	public void setX(double x){myX= x;}; 
+    public double getX(){return myX;};
+    public void setY(double y){myY= y;};
+    public double getY(){return myY;};
+	public void setDirectionX(double dirX){myDirectionX = dirX;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double dirY){myDirectionY = dirY;};
+    public double getDirectionY(){return myDirectionY;};
 }
 
 abstract class Floater{
-	protected int myX;
-	protected int myY;
-	protected int myDirectionX;
-	protected int myDirectionY;
-	abstract public void setX(int x);
-	abstract public int getX ();
-	abstract public void setY(int y);
-	abstract public int getY ();
-	abstract public void setDirectionX(int dirX);
-	abstract public int getDirectionX();
-	abstract public void setDirectionY(int dirY);
-	abstract public int getDirectionY();
+	protected double myX;
+	protected double myY;
+	protected double myDirectionX;
+	protected double myDirectionY;
+	abstract public void setX(double x);
+	abstract public double getX ();
+	abstract public void setY(double y);
+	abstract public double getY ();
+	abstract public void setDirectionX(double dirX);
+	abstract public double getDirectionX();
+	abstract public void setDirectionY(double dirY);
+	abstract public double getDirectionY();
 	public void move(){
 		myX +=myDirectionX;
 		myY +=myDirectionY;
@@ -524,12 +574,11 @@ abstract class Floater{
 
 	}
 }
-
 public class Cards extends Floater{
 	int myValue;
 	int mySuit;
-	int myX= ((int)(Math.random()*400)+50);
-	int myY= ((int)(Math.random()*4000)-4000);
+	double myX= ((int)(Math.random()*400)+50);
+	double myY= ((int)(Math.random()*adjustSpeedOfCard)-adjustSpeedOfCard-100);
 	public Cards(){
 		myDirectionY= 1;
 	}
@@ -567,8 +616,8 @@ public class Cards extends Floater{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			//return Integer.toString(myValue+2);			//FOR Sublime
-			return parseInt(myValue+2);				//FOR Javascript
+			return Integer.toString(myValue+2);			//FOR Sublime
+			//return parseInt(myValue+2);				//FOR Javascript
 		}
 	}
 	public void move(){
@@ -578,21 +627,21 @@ public class Cards extends Floater{
 		stroke(0,0,0);
 		textSize(15);
 		fill(180,20,20);
-		rect(myX, myY, 80, 100); 												//the card itself
+		rect((float)myX, (float)myY, 80, 100); 												//the card itself
 		fill(0,0,0);
-		text(deck[input].getValueConvert()+"\n" + deck[input].getSuitConvert(), myX+5, myY+20); 		//text of the card
+		text(deck[input].getValueConvert()+"\n" + deck[input].getSuitConvert(), (float)myX+5, (float)myY+20); 		//text of the card
 	}		
-	public void setX(int x){myX= x;}; 
-    public int getX(){return myX;};
-    public void setY(int y){myY= y;};
-    public int getY(){return myY;};
-    public void setDirectionX(int dirX){myDirectionX = dirX;};
-    public int getDirectionX(){return myDirectionX;};
-    public void setDirectionY(int dirY){myDirectionY = dirY;};
-    public int getDirectionY(){return myDirectionY;};
+	public void setX(double x){myX= x;}; 
+    public double getX(){return myX;};
+    public void setY(double y){myY= y;};
+    public double getY(){return myY;};
+    public void setDirectionX(double dirX){myDirectionX = dirX;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double dirY){myDirectionY = dirY;};
+    public double getDirectionY(){return myDirectionY;};
 }
 public class Star extends Floater{
-	private int myStarX, myStarY;
+	private double myStarX, myStarY;
 	private int myColorStar;
 	public Star(){
 		myStarX= ((int)(Math.random()*580)+10);
@@ -613,18 +662,18 @@ public class Star extends Floater{
     }
     public void show(){
       noStroke();
-      fill(myColorStar);
+      fill((float)myColorStar);
       ellipse((float)myStarX, (float)myStarY, 2, 2);
       super.show();
     }
-    public void setX(int x){myX= x;}; 
-    public int getX(){return myX;};
-    public void setY(int y){myY= y;};
-    public int getY(){return myY;};
-	public void setDirectionX(int dirX){myDirectionX = dirX;};
-    public int getDirectionX(){return myDirectionX;};
-    public void setDirectionY(int dirY){myDirectionY = dirY;};
-    public int getDirectionY(){return myDirectionY;};
+    public void setX(double x){myX= x;}; 
+    public double getX(){return myX;};
+    public void setY(double y){myY= y;};
+    public double getY(){return myY;};
+	public void setDirectionX(double dirX){myDirectionX = dirX;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double dirY){myDirectionY = dirY;};
+    public double getDirectionY(){return myDirectionY;};
 }
 public void shuffle(int inArray[] ){
 	int temp1, temp2;
@@ -641,20 +690,20 @@ public boolean pairCheck, tripCheck, quadCheck, flushCheck=false;
 public int flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour;
 public int scores=0;
 public void scoreEngine(){
-	if(scoreStart==true){
+	if(scoreStart==true&&handScore==true){
 		if(quadCheck==true||flushCheck==true||tripCheck==true||pairCheck==true){
 			if(quadCheck==true){					//switching winnings over too boolean form
 				quadCheck=false;
-				scores+=100;
+				scores+=50;
 			}else if(flushCheck==true){
 				flushCheck=false;
-				scores+=10;
+				scores+=20;
 			}else if(tripCheck==true){
 				tripCheck=false;
-				scores+=3;
+				scores+=15;
 			}else if(pairCheck==true){
 				pairCheck=false;
-				scores+=2;
+				scores+=5;
 			}
 			quadCheck=false;
 			tripCheck=false;
@@ -678,7 +727,7 @@ public void scoreEngine(){
 				}
 			}
 		}
-		for(int i=0; i<5; i++){
+		for(int i=0; i<5; i++){												//counting how many in each suit
 			if(hand.get(i).getSuit()==1){
 				flushCheckOne++;
 			}else if(hand.get(i).getSuit()==2){
@@ -689,12 +738,12 @@ public void scoreEngine(){
 				flushCheckFour++;
 			}
 		}
-		if(Math.max(Math.max(Math.max(flushCheckOne, flushCheckTwo),flushCheckThree), flushCheckFour)>=5){
-			flushCheck=true;
-			flushCheckOne=0;
-			flushCheckTwo=0;
-			flushCheckThree=0;
-			flushCheckFour=0;
+		if(Math.max(Math.max(Math.max(flushCheckOne, flushCheckTwo),flushCheckThree), flushCheckFour)>=5){		//resetting the flushCount
+				flushCheck=true;
+				flushCheckOne=0;
+				flushCheckTwo=0;
+				flushCheckThree=0;
+				flushCheckFour=0;
 		}
 	}
 }
