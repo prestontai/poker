@@ -60,3 +60,6 @@ public void scoreEngine(){
 		}
 	}
 }
+public void sortCards(ArrayList<Cards>input){
+	//hand.get(i)
+}

@@ -13,16 +13,16 @@ public int timer=0;
 public int shotTargets=0;
 public boolean scoreStart=false;
 public boolean handScore=false;
-public int adjustSpeedOfCard=500;
+public int adjustSpeedOfCard=5000;
 ArrayList<Integer> uniqueArray = new ArrayList<Integer>();
 
 public void settings(){
-	size(600,600);				//for Sublime
+	//size(600,600);				//for Sublime
 
 }
 
 public void setup(){
-	//size(600,600);				//for JS
+	size(600,600);				//for JS
 	flyer.setX(300);
 	flyer.setY(500);
 	for(int i=0; i<night.length; i++){	//star background maker
@@ -146,13 +146,13 @@ public void keyPressed(){
 }
 public void mousePressed(){
 	magazine.add(0, new Bullet());
-	magazine.add(0, new Bullet());
+	/*magazine.add(0, new Bullet());
 	magazine.add(0, new Bullet());
 	magazine.add(0, new Bullet());
 	magazine.add(0, new Bullet());
 	magazine.get(1).setDirectionX(2*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));			//fun!  just adding a spread of bullets
 	magazine.get(2).setDirectionX(-2*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));			
-	magazine.get(3).setDirectionX(4*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));
+	magazine.get(3).setDirectionX(4*(mouseX-flyer.getX())/(mouseY-flyer.getY()-120));*/
 	
 	/*if(-3*(mouseX-flyer.getX())/(mouseY-flyer.getY()-100)<-15){
 		magazine.get(0).setDirectionX(-8);														
@@ -263,8 +263,8 @@ public class Cards extends Floater{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			return Integer.toString(myValue+2);			//FOR Sublime
-			//return parseInt(myValue+2);				//FOR Javascript
+			//return Integer.toString(myValue+2);			//FOR Sublime
+			return parseInt(myValue+2);				//FOR Javascript
 		}
 	}
 	public void move(){
