@@ -475,8 +475,9 @@ public void draw(){
 		scores+=1;
 	}else if(handCount==5){
 		scoreEngine();
-		scoreStart=false;
+		handScore=false;
 	}else if(handCount==4){
+		handScore=true;
 		scoreStart=true;
 	}
 	text("SCORE: "+ scores, 20, 540);				//scoreCard
@@ -627,6 +628,7 @@ public class Cards extends Floater{
 		stroke(0,0,0);
 		textSize(15);
 		fill(180,20,20);
+		noStroke();
 		rect((float)myX, (float)myY, 80, 100); 												//the card itself
 		fill(0,0,0);
 		text(deck[input].getValueConvert()+"\n" + deck[input].getSuitConvert(), (float)myX+5, (float)myY+20); 		//text of the card
@@ -686,39 +688,36 @@ public void shuffle(int inArray[] ){
 	}
 }
 //this is for caclulating winning hand and scores
-public boolean pairCheck, tripCheck, quadCheck, flushCheck=false;
+public boolean pairCheck, tripCheck, quadCheck, flushCheck,straightCheck=false;
 public int flushCheckOne, flushCheckTwo, flushCheckThree, flushCheckFour;
 public int scores=0;
 public void scoreEngine(){
 	if(scoreStart==true&&handScore==true){
-		if(quadCheck==true||flushCheck==true||tripCheck==true||pairCheck==true){
-			if(quadCheck==true){					//switching winnings over too boolean form
-				quadCheck=false;
-				scores+=50;
-			}else if(flushCheck==true){
-				flushCheck=false;
-				scores+=20;
-			}else if(tripCheck==true){
-				tripCheck=false;
-				scores+=15;
-			}else if(pairCheck==true){
-				pairCheck=false;
-				scores+=5;
-			}
-			quadCheck=false;
-			tripCheck=false;
-			pairCheck=false;
-			flushCheck=false;
+		if(quadCheck==true){					//switching winnings over too boolean form
+			scores+=50;
+		}else if(flushCheck==true){
+			scores+=30;
+		}else if(tripCheck==true){
+			scores+=15;
+		}else if(pairCheck==true){
+			scores+=5;
+	//	}else if(sortCards(hand)==true){
+
 		}
+		quadCheck=false;
+		tripCheck=false;
+		pairCheck=false;
+		flushCheck=false;
+		straightCheck=false;
 		for(int i=0; i<5; i++){
 			for(int j=0; j<5; j++){
 				for(int k=0; k<5; k++){											
 					for(int l=0; l<5; l++){
-						if(i!=j&&hand.get(i).getValue()==hand.get(j).getValue()){						//two of a kind
+						if(i!=j&&j!=k&&k!=l&&hand.get(i).getValue()==hand.get(j).getValue()){						//two of a kind
 							pairCheck=true;	
-							if(i!=k&&j!=k&&hand.get(j).getValue()==hand.get(k).getValue()){			//three of a kind
+							if(hand.get(j).getValue()==hand.get(k).getValue()){			//three of a kind
 								tripCheck=true;
-								if(k!=j&&i!=l&&hand.get(k).getValue()==hand.get(l).getValue()){		//four of a kind
+								if(hand.get(k).getValue()==hand.get(l).getValue()){		//four of a kind
 									quadCheck=true;
 								}
 							}
@@ -734,7 +733,7 @@ public void scoreEngine(){
 				flushCheckTwo++;
 			}else if(hand.get(i).getSuit()==3){
 				flushCheckThree++;
-			}else if(hand.get(i).getSuit()==1){
+			}else if(hand.get(i).getSuit()==4){
 				flushCheckFour++;
 			}
 		}
@@ -747,9 +746,24 @@ public void scoreEngine(){
 		}
 	}
 }
-public void sortCards(ArrayList<Cards>input){
-	//hand.get(i)
-}
+/*public boolean sortCards(ArrayList<Cards>input){
+	int [] straightOrg= new int [5];
+	int low=straightOrg[0];
+	int high=straightOrg[1];
+	int temp;
+	for(int i=0; i<5; i++){
+		straightOrg[i]=input.get(i).getValue();
+	}
+	while(low>high){
+		if(low==high){
+			return false;
+		}
+			temp=low;
+			low=high;
+			high=temp;
+		i++;
+	}
+}*/
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "poker" };
     if (passedArgs != null) {

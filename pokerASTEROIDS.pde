@@ -17,12 +17,12 @@ public int adjustSpeedOfCard=5000;
 ArrayList<Integer> uniqueArray = new ArrayList<Integer>();
 
 public void settings(){
-	//size(600,600);				//for Sublime
+	size(600,600);				//for Sublime
 
 }
 
 public void setup(){
-	size(600,600);				//for JS
+	//size(600,600);				//for JS
 	flyer.setX(300);
 	flyer.setY(500);
 	for(int i=0; i<night.length; i++){	//star background maker
@@ -122,8 +122,9 @@ public void draw(){
 		scores+=1;
 	}else if(handCount==5){
 		scoreEngine();
-		scoreStart=false;
+		handScore=false;
 	}else if(handCount==4){
+		handScore=true;
 		scoreStart=true;
 	}
 	text("SCORE: "+ scores, 20, 540);				//scoreCard
@@ -263,8 +264,8 @@ public class Cards extends Floater{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			//return Integer.toString(myValue+2);			//FOR Sublime
-			return parseInt(myValue+2);				//FOR Javascript
+			return Integer.toString(myValue+2);			//FOR Sublime
+			//return parseInt(myValue+2);				//FOR Javascript
 		}
 	}
 	public void move(){
@@ -274,6 +275,7 @@ public class Cards extends Floater{
 		stroke(0,0,0);
 		textSize(15);
 		fill(180,20,20);
+		noStroke();
 		rect((float)myX, (float)myY, 80, 100); 												//the card itself
 		fill(0,0,0);
 		text(deck[input].getValueConvert()+"\n" + deck[input].getSuitConvert(), (float)myX+5, (float)myY+20); 		//text of the card
