@@ -428,8 +428,8 @@ public void draw(){
     noStroke();
     for(int a=0; a<deck.length; a++){
       	for(int i=0; i<magazine.size(); i++){
-	     	if(magazine.get(i).getX()<deck[a].getX()+90&&magazine.get(i).getX()>deck[a].getX()-10					//collision of bullets and cards
-	     	&&magazine.get(i).getY()<deck[a].getY()+100&&magazine.get(i).getY()>deck[a].getY()){				//80X 100Y
+	     	if(magazine.get(i).getX()<deck[a].getX()+70&&magazine.get(i).getX()>deck[a].getX()-10					//collision of bullets and cards
+	     	&&magazine.get(i).getY()<deck[a].getY()+85&&magazine.get(i).getY()>deck[a].getY()){				//80X 100Y		60X 80Y
 		          deck[a].setY(-20000);					//moves the card off the screen if it gets hit
 		          magazine.remove(i);
 		          i--;
@@ -596,15 +596,15 @@ public class Cards extends Floater{
 	public int getSuit(){
 		return mySuit;
 	}
-	public String getSuitConvert(){		//switches from int to string to display suit instead of number
+	public char getSuitConvert(){		//switches from int to string to display suit instead of number
 		if(mySuit==1){
-			return "diamonds";
+			return '\u2662';			//return "diamonds";
 		}else if(mySuit==2){
-			return "clovers";
+			return '\u2667';				//return "clovers";
 		}else if(mySuit==3){
-			return "hearts";
+			return '\u2661';			//return "hearts";
 		}else{
-			return "spades";
+			return '\u2664';				//return "spades";
 		}
 	}
 	public String getValueConvert(){	//switches to Jack/Queen/King/Ace
@@ -617,7 +617,7 @@ public class Cards extends Floater{
 		}else if(myValue+2==14){
 			return "ACE";
 		}else{
-			return Integer.toString(myValue+2);			//FOR Sublime
+			return " "+Integer.toString(myValue+2);			//FOR Sublime
 			//return parseInt(myValue+2);				//FOR Javascript
 		}
 	}
@@ -626,12 +626,12 @@ public class Cards extends Floater{
 	}
 	public void cardMake(int input){							//makes the cards so it's easier to call
 		stroke(0,0,0);
-		textSize(15);
+		textSize(16.5f);
 		fill(180,20,20);
 		noStroke();
-		rect((float)myX, (float)myY, 80, 100); 												//the card itself
+		rect((float)myX, (float)myY, 60, 80); 												//the card itself
 		fill(0,0,0);
-		text(deck[input].getValueConvert()+"\n" + deck[input].getSuitConvert(), (float)myX+5, (float)myY+20); 		//text of the card
+		text(deck[input].getValueConvert()+"\n" + deck[input].getSuitConvert(), (float)myX+5, (float)myY+30); 		//text of the card
 	}		
 	public void setX(double x){myX= x;}; 
     public double getX(){return myX;};
@@ -701,14 +701,15 @@ public void scoreEngine(){
 			scores+=15;
 		}else if(pairCheck==true){
 			scores+=5;
-	//	}else if(sortCards(hand)==true){
-
+		}else if(sortCards(hand)==true){
+			scores+=20;
 		}
 		quadCheck=false;
 		tripCheck=false;
 		pairCheck=false;
 		flushCheck=false;
 		straightCheck=false;
+
 		for(int i=0; i<5; i++){
 			for(int j=0; j<5; j++){
 				for(int k=0; k<5; k++){											
@@ -746,24 +747,29 @@ public void scoreEngine(){
 		}
 	}
 }
-/*public boolean sortCards(ArrayList<Cards>input){
-	int [] straightOrg= new int [5];
-	int low=straightOrg[0];
-	int high=straightOrg[1];
-	int temp;
-	for(int i=0; i<5; i++){
+public boolean sortCards(ArrayList<Cards>input){
+	int [] straightOrg= new int [7];
+	int pos, temp;
+	for(int i=0; i<straightOrg.length;i++){
 		straightOrg[i]=input.get(i).getValue();
 	}
-	while(low>high){
-		if(low==high){
-			return false;
+	for(int outer=0; outer<straightOrg.length-1; outer++){
+		pos=outer;
+		for(int inner=outer+1;inner<straightOrg.length-1;inner++){
+			if(straightOrg[inner]<straightOrg[pos]){
+				pos=inner;
+			}
 		}
-			temp=low;
-			low=high;
-			high=temp;
-		i++;
+		temp = straightOrg[outer];
+   	 	straightOrg[outer] = straightOrg[pos];
+   		straightOrg[pos] = temp;
 	}
-}*/
+	if(straightOrg[0]+4==straightOrg[1]+3&&straightOrg[1]+3==straightOrg[2]+2&&straightOrg[2]+2==straightOrg[3]+1&&straightOrg[3]+1==straightOrg[4]){
+		System.out.println("SDJKLF");
+		return true;
+	}
+	return false;
+}
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "poker" };
     if (passedArgs != null) {

@@ -12,14 +12,15 @@ public void scoreEngine(){
 			scores+=15;
 		}else if(pairCheck==true){
 			scores+=5;
-	//	}else if(sortCards(hand)==true){
-
+		}else if(sortCards(hand)==true){
+			scores+=20;
 		}
 		quadCheck=false;
 		tripCheck=false;
 		pairCheck=false;
 		flushCheck=false;
 		straightCheck=false;
+
 		for(int i=0; i<5; i++){
 			for(int j=0; j<5; j++){
 				for(int k=0; k<5; k++){											
@@ -58,19 +59,25 @@ public void scoreEngine(){
 	}
 }
 public boolean sortCards(ArrayList<Cards>input){
-	int [] straightOrg= new int [5];
-	int low=straightOrg[0];
-	int high=straightOrg[1];
-	int temp;
-	for(int i=0; i<5; i++){
+	int [] straightOrg= new int [7];
+	int pos, temp;
+	for(int i=0; i<straightOrg.length;i++){
 		straightOrg[i]=input.get(i).getValue();
 	}
-	while(j<5){
-		for(int i=0; i<4; i++){
-			if(low>straightOrg[i+1]){
-				low=straightOrg[i+1];
+	for(int outer=0; outer<straightOrg.length-1; outer++){
+		pos=outer;
+		for(int inner=outer+1;inner<straightOrg.length-1;inner++){
+			if(straightOrg[inner]<straightOrg[pos]){
+				pos=inner;
 			}
 		}
-		j++;
+		temp = straightOrg[outer];
+   	 	straightOrg[outer] = straightOrg[pos];
+   		straightOrg[pos] = temp;
 	}
+	if(straightOrg[0]+4==straightOrg[1]+3&&straightOrg[1]+3==straightOrg[2]+2&&straightOrg[2]+2==straightOrg[3]+1&&straightOrg[3]+1==straightOrg[4]){
+		System.out.println("SDJKLF");
+		return true;
+	}
+	return false;
 }
